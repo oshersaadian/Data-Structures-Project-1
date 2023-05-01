@@ -211,8 +211,24 @@ class AVLTree(object):
 	@rtype: any
 	@returns: the value corresponding to key.
 	"""
+
 	def search(self, key):
-		return None
+		"using recursion"
+
+		def search_rec(node, key):
+			if node.key == None:
+				return None
+
+			elif key == node.key:
+				return node
+
+			elif key < node.key:
+				return search_rec(node.left, key)
+
+			else:
+				return search_rec(node.right, key)
+
+		return search_rec(self.root, key)
 
 
 	"""inserts val at position i in the dictionary
@@ -245,8 +261,18 @@ class AVLTree(object):
 	@rtype: list
 	@returns: a sorted list according to key of touples (key, value) representing the data structure
 	"""
+
+
 	def avl_to_array(self):
-		return None
+		avl_lst = []
+		def InOrder(node: AVLNode):
+			if node.key != None:
+				InOrder(node.left)
+				avl_lst.append((node.key, node.value))
+				InOrder(node.right)
+			return avl_lst
+
+		return InOrder(self.root)
 
 
 	"""returns the number of items in dictionary 
@@ -269,7 +295,33 @@ class AVLTree(object):
 	dictionary larger than node.key.
 	"""
 	def split(self, node):
-		return None
+		oldNode = node
+		RightTreeRoot = node.right
+		LeftTreeRoot = node.left
+		"first iteration"
+		"left tree- small"
+		if node.parent.key < node.key:
+			"join(node.parent.left, node.parent, node.left)"
+
+		else:
+			while (node.key < node.parent.key):
+				node = node.parent
+			"join(node.parent.left, node.parent, oldNode.left)"
+			"join(RightTreeRoot, oldNode.parent, oldNode.parent.right)"
+
+
+		"rest of iterations"
+		while node != self.root:
+			if node.parent.key < node.key:
+				"join(node.parent.left, node.parent, node)"
+			node = node.parent
+			else:
+				"join(node.parent.left, node.parent, node.left)"
+				"join(RightTreeRoot, node, node.right)"
+				RightTreeRoot = node
+
+
+		return None "return pointers to the roots?"
 
 	
 	"""joins self with key and another AVLTree
